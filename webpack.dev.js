@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const extractTextPlugin = require('extract-text-webpack-plugin');
 const helpers = require('./helpers');
 const path = require('path');
 
@@ -57,7 +58,13 @@ const config = {
                 loader: 'file-loader?name=assets/[name].[ext]'
             }, {
                 test: /\.(css|scss|sass)$/,
-                use: ['style-loader', 'css-loader', 'sass-loader']
+                use: extractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: [
+                        'css-loader',
+                        'sass-loader'
+                    ]
+                })
             }
         ]
     },
@@ -69,6 +76,9 @@ const config = {
         new HtmlWebpackPlugin({
             template: 'src/index.html',
             inject: 'body'
+        }),
+        new extractTextPlugin({
+            filename: 'app.css'
         }),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoEmitOnErrorsPlugin()
