@@ -1,0 +1,5 @@
+
+{{isValid}} {{showOnSubmit}} {{errors | json}}
+<small *ngIf="showOnSubmit && errors">
+    {{errorMessage}}
+</small>

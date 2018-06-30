@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -6,11 +7,11 @@ import { Ticketing } from './ticketing.component';
 import { FlightSearch } from './components/flightSearch.component';
 import { FormSelect } from '../../shared/FormSelect/formSelect.component';
 import { FormInput } from '../../shared/FormInput/formInput.component';
+import { FormButton } from '../../shared/FormButton/formButton.component';
 
 import { TicketingService } from './services/ticketing.service';
 import { TicketingRoutingModule } from './ticketing-routing.module';
-import { CommonModule } from '@angular/common';
-import { FormButton } from '../../shared/FormButton/formButton.component';
+import { FormError } from '../../shared/FormError/formError.component';
 
 @NgModule({
     imports: [
@@ -25,7 +26,8 @@ import { FormButton } from '../../shared/FormButton/formButton.component';
         FlightSearch,
         FormSelect,
         FormInput,
-        FormButton
+        FormButton, 
+        FormError
     ],
     providers: [
         TicketingService

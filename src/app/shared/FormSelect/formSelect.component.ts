@@ -11,4 +11,5 @@ export class FormSelect {
     @Input('groupName') groupName: FormGroup;
     @Input('propName') propertyName: string;
     @Input('optPropName') optionalPropertyName: string;
+    @Input('showErrorOnSubmit') isVisible: boolean;
 }

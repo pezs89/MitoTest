@@ -1,4 +1,4 @@
-import { StationConnection } from "./connection";
+import { StationConnection } from "./stationConnection";
 
 export class Station {
     iata: string;

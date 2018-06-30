@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChange, SimpleChanges, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, Form } from '@angular/forms';
 import { Station } from '../../../core/models/station';
 import { StationConnection } from '../../../core/models/stationConnection';
 import { FLIGHT_FORM } from '../../../core/constants/flightForm';
@@ -32,7 +32,10 @@ export class FlightSearch implements OnInit, OnChanges {
     }
 
     onFormValueChange() {
-        this.flightSearchForm.valueChanges.subscribe(formValue => this.configs = this.updateConfig(undefined, formValue.origin, 'destination'))
+        this.flightSearchForm.valueChanges.subscribe(formValue => {
+            this.configs = this.updateConfig(undefined, formValue.origin, 'destination');
+            this.validateDates(formValue.departure, formValue.return);
+        })
     }
 
     updateConfig(newStationList: Station[], origin: Station, configType: string): any {
@@ -60,7 +63,19 @@ export class FlightSearch implements OnInit, OnChanges {
         return group;
     }
 
+    validateDates(originDate: string, returnDate: string) {
+        if (Date.parse(originDate) >= Date.parse(returnDate)) {
+            this.flightSearchForm.controls['departure'].setErrors({ invalidDate: 'The departure date has to be smaller than the return date!' });
+            this.flightSearchForm.controls['return'].setErrors({ invalidDate: 'The departure date has to be smaller than the return date!' });
+        } else if (Date.parse(originDate) < Date.parse(returnDate)) {
+            this.flightSearchForm.controls['departure'].setErrors(null);
+        }
+    }
+
     submitForm(form: any) {
-        console.log(form)
+        this.isSubmitted = true;
+        if (form.valid) {
+            console.log(form);
+        }
     }
 }

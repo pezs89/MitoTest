@@ -1,11 +1,8 @@
 <section>
-    <span *ngIf="flightSearchForm">
-        {{flightSearchForm.value | json}}
-    </span>
     <form [formGroup]="flightSearchForm" (ngSubmit)="submitForm(flightSearchForm)" *ngIf="stations">
             <div *ngFor="let config of configs" [ngSwitch]="config.type">
-                <form-select *ngSwitchCase="'select'" [config]="config" [groupName]="flightSearchForm" [propName]="config.propertyName" [optPropName]="config.optionalPropertyName"></form-select>
-                <form-input *ngSwitchCase="'input'" [config]="config" [groupName]="flightSearchForm"></form-input>
+                <form-select *ngSwitchCase="'select'" [showErrorOnSubmit]="isSubmitted" [config]="config" [groupName]="flightSearchForm" [propName]="config.propertyName" [optPropName]="config.optionalPropertyName"></form-select>
+                <form-input *ngSwitchCase="'input'" [showErrorOnSubmit]="isSubmitted" [config]="config" [groupName]="flightSearchForm"></form-input>
                 <form-button *ngSwitchCase="'button'" [config]="config" [groupName]="flightSearchForm"></form-button>
             </div>
         </form>

@@ -9,4 +9,5 @@
             </small>
         </option>
     </select>
+    <form-error [showErrorOnSubmit]="isVisible" [errors]="groupName.get(config.controlName).errors" [label]="config.label"></form-error>
 </div>

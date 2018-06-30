@@ -9,4 +9,5 @@ import { FormGroup } from '@angular/forms';
 export class FormInput {
     @Input('config') config: any;
     @Input('groupName') groupName: FormGroup;
+    @Input('showErrorOnSubmit') isVisible: boolean;
 }
