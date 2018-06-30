@@ -5,6 +5,15 @@ import { PageNotFound } from './shared/PageNotFoundComponent/page-not-found.comp
 const appRoutes: Routes = [
     {
         path: '',
+        redirectTo: '/ticketing',
+        pathMatch: 'full'
+    },
+    {
+        path: 'ticketing',
+        redirectTo: 'app/modules/ticketing/ticketing.module#TicketingModule',
+    },
+    {
+        path: '**',
         component: PageNotFound
     }
 ]
