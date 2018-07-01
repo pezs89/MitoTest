@@ -2,7 +2,7 @@ export const FLIGHT_FORM = [{
     type: 'select',
     label: 'Origin',
     controlName: 'origin',
-    options: this.stations,
+    options: [],
     placeholder: 'Select an option',
     propertyName: "shortName",
     optionalPropertyName: "iata"
@@ -10,7 +10,7 @@ export const FLIGHT_FORM = [{
     type: 'select',
     label: 'Destination',
     controlName: 'destination',
-    options: this.stations,
+    options: [],
     placeholder: 'Select an option',
     propertyName: "shortName",
     optionalPropertyName: "iata"

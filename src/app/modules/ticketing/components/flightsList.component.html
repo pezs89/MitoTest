@@ -1,0 +1,8 @@
+<section *ngIf="flights && flights.departureFlights.length > 0">
+    <div *ngFor="let item of flights.departureFlights">
+        <flight-card [flightDetail]="item"></flight-card>
+    </div>
+    <div *ngFor="let item of flights.returnFlights">
+        <flight-card [flightDetail]="item"></flight-card>
+    </div>
+</section>

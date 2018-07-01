@@ -1,5 +1,5 @@
-
-{{isValid}} {{showOnSubmit}} {{errors | json}}
-<small *ngIf="showOnSubmit && errors">
-    {{errorMessage}}
-</small>
+<div class="form-error">
+    <small class="form-error__message" *ngIf="showOnSubmit && errors">
+        {{errorMessage}}
+    </small>
+</div>

@@ -1,8 +1,12 @@
 import { Component, Input, OnChanges, SimpleChange, SimpleChanges, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, Form } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, Form, FormControl } from '@angular/forms';
 import { Station } from '../../../core/models/station';
 import { StationConnection } from '../../../core/models/stationConnection';
 import { FLIGHT_FORM } from '../../../core/constants/flightForm';
+import { TicketingService } from '../services/ticketing.service';
+import { Flights } from '../../../core/models/flights';
+import { FlightsService } from '../services/flights.service';
+import { ValueTransformer } from '@angular/compiler/src/util';
 
 @Component({
     selector: 'flight-search',
@@ -15,52 +19,77 @@ export class FlightSearch implements OnInit, OnChanges {
     flightSearchForm: FormGroup;
     configs = FLIGHT_FORM;
 
-    constructor(private fb: FormBuilder) { }
+    constructor(private fb: FormBuilder, private ticketingService: TicketingService, private flightsService: FlightsService) { }
 
     ngOnInit() {
+        this.flightSearchForm = this.createGroup();
         this.onFormValueChange();
     }
 
     ngOnChanges(change: SimpleChanges) {
         const stations: SimpleChange = change.stations;
-        if (stations.currentValue !== stations.previousValue) {
-            this.configs = this.updateConfig(stations.currentValue, undefined, 'origin');
-            this.flightSearchForm = this.createGroup();
+        if (stations.currentValue && stations.currentValue.length > 0) {
+            this.configs = this.updateConfig(stations.currentValue, undefined);
         }
-        this.onFormValueChange();
-
     }
 
     onFormValueChange() {
         this.flightSearchForm.valueChanges.subscribe(formValue => {
-            this.configs = this.updateConfig(undefined, formValue.origin, 'destination');
+            this.setOriginOrDestination(formValue.origin, 'origin');
+            this.setOriginOrDestination(formValue.destination, 'destination');
+            this.configs = this.updateConfig(this.stations, formValue.origin)
             this.validateDates(formValue.departure, formValue.return);
         })
     }
 
-    updateConfig(newStationList: Station[], origin: Station, configType: string): any {
+    setOriginOrDestination(iata: string, key: string) {
+        sessionStorage.setItem(key, iata);
+    }
+
+    updateConfig(newStationList: Station[], origin: string): any {
         const newConfig = [...this.configs];
-        const index = newConfig.findIndex(config => config.controlName === configType);
+        const originIndex = newConfig.findIndex(config => config.controlName === 'origin');
+        const destinationIndex = newConfig.findIndex(config => config.controlName === 'destination');
+
+        if (newConfig[originIndex].options !== newStationList) {
+            newConfig[originIndex].options = newStationList;
+        }
 
         if (!origin) {
-            newConfig[index].options = newStationList;
+            newConfig[destinationIndex].options = this.getDestinations(sessionStorage.getItem('origin'));
         } else {
-            newConfig[index].options = this.getDestinations(origin);
+            newConfig[destinationIndex].options = this.getDestinations(origin);
         }
 
         return newConfig;
     }
 
-    getDestinations(origin: Station): Station[] {
-        return origin.connections.map((connection: StationConnection) =>
-            this.stations.find((station: Station) => station.iata === connection.iata))
+    getDestinations(origin: string): Station[] {
+        if (origin) {
+            const connections = this.stations.find(station => station.iata === origin).connections;
+            return connections.map(connection => this.stations.find(station => station.iata === connection.iata));
+        } else {
+            return [];
+        }
     }
 
     createGroup(): FormGroup {
         const group = this.fb.group({});
         const formControls = this.configs.filter(config => config.type !== 'button');
-        formControls.forEach(control => group.addControl(control.controlName, this.fb.control('', Validators.required)));
+        formControls.forEach(control => group.addControl(control.controlName, this.createFormControls(control.controlName)));
         return group;
+    }
+
+    createFormControls(controlName: string): FormControl {
+        switch (controlName) {
+            case 'origin':
+            case 'destination':
+                return this.fb.control(sessionStorage.getItem(controlName) || '', Validators.required)
+            case 'departure':
+                return this.fb.control('', Validators.required);
+            default:
+                return this.fb.control('');
+        }
     }
 
     validateDates(originDate: string, returnDate: string) {
@@ -75,7 +104,22 @@ export class FlightSearch implements OnInit, OnChanges {
     submitForm(form: any) {
         this.isSubmitted = true;
         if (form.valid) {
-            console.log(form);
+            const flights: Flights = {
+                departureFlights: [],
+                returnFlights: []
+            }
+            if (form.value.return) {
+                this.ticketingService.searchForRetourFlight(form.value.origin, form.value.destination, form.value.departure, form.value.return).subscribe(response => {
+                    flights.departureFlights = response[0];
+                    flights.returnFlights = response[1];
+                    this.flightsService.sendAvailableTickets(flights);
+                })
+            } else {
+                this.ticketingService.searchForOneWayFlight(form.value.origin, form.value.destination, form.value.departure).subscribe(response => {
+                    flights.departureFlights = response;
+                    this.flightsService.sendAvailableTickets(flights);
+                })
+            }
         }
     }
 }

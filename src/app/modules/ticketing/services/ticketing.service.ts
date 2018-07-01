@@ -1,17 +1,25 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Observable, forkJoin, from } from 'rxjs';
 import { Station } from '../../../core/models/station';
+import { API_URL } from '../../../core/constants/apiUrl';
+import { Flight } from '../../../core/models/Flight';
 
 @Injectable()
 export class TicketingService {
     constructor(private http: HttpClient) { }
 
     getAllStations(): Observable<Station[]> {
-        return this.http.get<Station[]>('https://mock-air.herokuapp.com/asset/stations')
+        return this.http.get<Station[]>(API_URL + '/asset/stations');
     }
 
-    searchForFlight(departureStation: string, arrivalStation: string, date: Date): Observable<any[]> {
-        return this.http.get<any[]>(`https://mock-air.herokuapp.com/search?departureStation=${departureStation}&arrivalStation=${arrivalStation}&date=${date}`)
+    searchForOneWayFlight(departureStation: string, arrivalStation: string, departureDate: Date): Observable<Flight[]> {
+        return this.http.get<Flight[]>(API_URL + `/search?departureStation=${departureStation}&arrivalStation=${arrivalStation}&date=${departureDate}`);
+    }
+
+    searchForRetourFlight(departureStation: string, arrivalStation: string, departureDate: Date, returnDate: Date) {
+        const departureRequest = this.http.get<Flight[]>(API_URL + `/search?departureStation=${departureStation}&arrivalStation=${arrivalStation}&date=${departureDate}`);
+        const returnRequest = this.http.get<Flight[]>(API_URL + `/search?departureStation=${arrivalStation}&arrivalStation=${departureStation}&date=${returnDate}`);
+        return forkJoin([departureRequest, returnRequest]);
     }
 }
