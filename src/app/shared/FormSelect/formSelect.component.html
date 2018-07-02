@@ -1,11 +1,11 @@
-<div class="" [formGroup]="groupName">
-    <label>{{ config.label }}</label>
-    <select [formControlName]="config.controlName">
-        <option value="">{{ config.placeholder }}</option>
+<div class="form-select" [formGroup]="groupName">
+    <label class="form-select__label">{{ config.label }}</label>
+    <select class="form-select__select" [formControlName]="config.controlName">
+        <option class="form-select__option" value="">{{ config.placeholder }}</option>
         <option *ngFor="let option of config.options" [value]="option.iata">
-            {{ option[propertyName] }}
-            <small *ngIf="optionalPropertyName">
-                ({{ option[optionalPropertyName] }})
+            {{ option[config.propertyName] }}
+            <small class="form-select__iata" *ngIf="config.optionalPropertyName">
+                ({{ option[config.optionalPropertyName] }})
             </small>
         </option>
     </select>

@@ -1,12 +1,22 @@
-<section *ngIf="flights && flights.departureFlights.length > 0">
-    <div>
-        <ul *ngFor="let item of flights.departureFlights">
-            <flight-card [flightDetail]="item" [isButtonsEnabled]="true" (buyTicket)="ticketHAndler($event)"></flight-card>
+<section class="flights-list" *ngIf="flights && flights.departureFlights.length > 0">
+    <div class="flights-list__items">
+        <ul class="flights-list__list" *ngFor="let item of flights.departureFlights">
+            <flight-card [flightDetail]="item" [isButtonsEnabled]="true" [selectedFlight]="selectedDeparture" (buyTicketEvent)="ticketSelectionHandler($event)"
+                type="departureFlight"></flight-card>
         </ul>
+        <div *ngIf="flights.returnFlights.length === 0">
+            <form [formGroup]="returnFlightForm" (ngSubmit)="searchForReturnFlight(returnFlightForm.value)">
+                <div *ngFor="let config of formConfig" [ngSwitch]="config.type">
+                    <form-input *ngSwitchCase="'input'" [min]="flights.departure" [showErrorOnSubmit]="isSubmitted" [config]="config" [groupName]="returnFlightForm"></form-input>
+                    <form-button *ngSwitchCase="'button'" [config]="config" [groupName]="returnFlightForm"></form-button>
+                </div>
+            </form>
+        </div>
     </div>
-    <div>
-        <ul *ngFor="let item of flights.returnFlights">
-            <flight-card [flightDetail]="item" [isButtonsEnabled]="true" (buyTicket)="ticketHAndler($event)"></flight-card>
+    <div class="flights-list__items">
+        <ul class="flights-list__list" *ngFor="let item of flights.returnFlights">
+            <flight-card [flightDetail]="item" [isButtonsEnabled]="true" [selectedFlight]="selectedReturn" (buyTicketEvent)="ticketSelectionHandler($event)"
+                type="returnFlight"></flight-card>
         </ul>
     </div>
 </section>

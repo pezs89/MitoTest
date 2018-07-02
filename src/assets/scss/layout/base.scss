@@ -1,0 +1,35 @@
+html {
+    height: 100%;
+    overflow: auto;
+}
+
+body {
+    margin: 0;
+    height: calc(100% - 40px);
+    background:linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('~/assets/images/background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+header {
+    position: fixed;
+    height: 60px;
+    width: 100%;
+    top: 0;
+    background-color: $main-color;
+    z-index: 1;
+}
+
+main {
+    position: relative;
+    overflow: hidden;
+    margin: 40px 0 0 0;
+}
+
+input, select {
+    border: 1px solid $border-main-color;
+    padding: 0 5px;
+    border-radius: 3px;
+}

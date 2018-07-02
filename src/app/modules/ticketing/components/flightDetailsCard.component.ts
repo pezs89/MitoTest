@@ -1,6 +1,5 @@
-import { Component, Input, Output } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Flight } from '../../../core/models/Flight';
-import { EventEmitter } from 'events';
 import { Fare } from '../../../core/models/fare';
 
 @Component({
@@ -10,10 +9,17 @@ import { Fare } from '../../../core/models/fare';
 
 export class FlightDetailsCard {
     @Input('flightDetail') flight: Flight;
+    @Input('selectedFlight') selectedDeparture: Flight;
     @Input('isButtonsEnabled') isEnabled: boolean;
-    @Output('buyTicket') event: EventEmitter = new EventEmitter();
-    
-    buyTicket(event: any) {
-        this.event.emit(event);
+    @Input('type') flightType: boolean;
+    @Output() buyTicketEvent = new EventEmitter();
+
+    selectedTicket: Fare;
+
+    addTicket(fare: Fare) {
+        if (!this.selectedTicket) {
+            this.selectedTicket = fare;
+        }
+        this.buyTicketEvent.emit({ fare: fare, flightNumber: this.flight.flightNumber, type: this.flightType });
     }
 }

@@ -1,12 +1,10 @@
 import { Component, Input, OnChanges, SimpleChange, SimpleChanges, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, Form, FormControl } from '@angular/forms';
 import { Station } from '../../../core/models/station';
-import { StationConnection } from '../../../core/models/stationConnection';
 import { FLIGHT_FORM } from '../../../core/constants/flightForm';
 import { TicketingService } from '../services/ticketing.service';
 import { Flights } from '../../../core/models/flights';
 import { FlightsService } from '../services/flights.service';
-import { ValueTransformer } from '@angular/compiler/src/util';
 
 @Component({
     selector: 'flight-search',
@@ -17,7 +15,7 @@ export class FlightSearch implements OnInit, OnChanges {
     @Input('allStations') stations: Station[];
     isSubmitted: boolean = false;
     flightSearchForm: FormGroup;
-    configs = FLIGHT_FORM;
+    configs = [...FLIGHT_FORM];
 
     constructor(private fb: FormBuilder, private ticketingService: TicketingService, private flightsService: FlightsService) { }
 
@@ -106,16 +104,20 @@ export class FlightSearch implements OnInit, OnChanges {
         if (form.valid) {
             const flights: Flights = {
                 departureFlights: [],
-                returnFlights: []
+                returnFlights: [],
+                origin: form.value.origin,
+                destination: form.value.destination,
+                departure: form.value.departure,
+                return: form.value.return !== '' ? undefined : form.value.return
             }
             if (form.value.return) {
-                this.ticketingService.searchForRetourFlight(form.value.origin, form.value.destination, form.value.departure, form.value.return).subscribe(response => {
+                this.ticketingService.searchForRetourFlight(flights.origin, flights.destination, flights.departure, flights.return).subscribe(response => {
                     flights.departureFlights = response[0];
                     flights.returnFlights = response[1];
                     this.flightsService.sendAvailableTickets(flights);
                 })
             } else {
-                this.ticketingService.searchForOneWayFlight(form.value.origin, form.value.destination, form.value.departure).subscribe(response => {
+                this.ticketingService.searchForOneWayFlight(flights.origin, flights.destination, flights.departure).subscribe(response => {
                     flights.departureFlights = response;
                     this.flightsService.sendAvailableTickets(flights);
                 })

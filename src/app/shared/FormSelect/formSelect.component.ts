@@ -9,7 +9,5 @@ import { FormGroup } from '@angular/forms';
 export class FormSelect {
     @Input('config') config: any;
     @Input('groupName') groupName: FormGroup;
-    @Input('propName') propertyName: string;
-    @Input('optPropName') optionalPropertyName: string;
     @Input('showErrorOnSubmit') isVisible: boolean;
 }

@@ -19,7 +19,7 @@ export const FLIGHT_FORM = [{
     label: 'Departure',
     controlName: 'departure',
     placeholder: 'Departure',
-    inputType: 'date'
+    inputType: 'date',
 }, {
     type: 'input',
     label: 'Return',

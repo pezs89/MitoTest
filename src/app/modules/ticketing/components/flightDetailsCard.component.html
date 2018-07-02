@@ -1,12 +1,14 @@
 <li class="flight-card">
     <div class="flight-card__body">
         {{flight.remainingTickets}}
+        {{flight.flightNumber}}
+        {{selectedDeparture ? selectedDeparture.flightNumber : ''}}
         <div>
             <div class="">{{flight.departure}}</div>
             <div class="">{{flight.arrival}}</div>
         </div>
         <div *ngFor="let fare of flight.fares">
-            <button type="button" *ngIf="flight.remainingTickets > 0" (click)="buyTicket(fare)">
+            <button type="button" *ngIf="flight.remainingTickets > 0" [disabled]="(selectedDeparture && selectedDeparture.flightNumber !== flight.flightNumber) || (selectedTicket && fare.fareSellKey !== selectedTicket.fareSellKey)" (click)="addTicket(fare)">
                 {{fare.price}}
             </button>
             <span *ngIf="flight.remainingTickets === 0">

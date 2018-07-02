@@ -1,0 +1,16 @@
+.form-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+    &__button {
+        height: 30px;
+        width: 80px;
+        outline: none;
+        border: 1px solid #c6007e;
+        color: #fff;
+        cursor: pointer;
+        background-color: #c6007e;
+        border-radius: 3px;
+    }
+}

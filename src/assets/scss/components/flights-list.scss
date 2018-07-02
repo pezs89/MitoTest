@@ -1,0 +1,15 @@
+.flights-list {
+    background-color: #fff;
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__items {
+        width: calc(50% - 40px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+}

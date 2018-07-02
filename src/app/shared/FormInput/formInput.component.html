@@ -1,4 +1,5 @@
-<div [formGroup]="groupName">
-    <input [type]="config.inputType" [formControlName]="config.controlName"/>
+<div class="form-input-container" [formGroup]="groupName">
+    <label class="form-input__label">{{ config.label }}</label>
+    <input class="form-input-container__input" [min]="minValue" [type]="config.inputType" [formControlName]="config.controlName"/>
     <form-error [showErrorOnSubmit]="isVisible" [errors]="groupName.get(config.controlName).errors" [label]="config.label"></form-error>
 </div>
