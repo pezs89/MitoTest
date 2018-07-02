@@ -20,6 +20,10 @@ export class FlightsList implements OnInit, OnDestroy {
         })
     }
 
+    ticketHandler(asd: any) {
+        console.log(asd)
+    }
+
     ngOnDestroy() {
         this.availableTicketsSubscription.unsubscribe();
     }

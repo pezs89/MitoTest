@@ -1,10 +1,17 @@
-<div class="flight-card">
-    <div class="flight-card__header">
-        
-    </div>
+<li class="flight-card">
     <div class="flight-card__body">
-        <flight-card-time></flight-card-time>
-        <flight-card-buttons></flight-card-buttons>
+        {{flight.remainingTickets}}
+        <div>
+            <div class="">{{flight.departure}}</div>
+            <div class="">{{flight.arrival}}</div>
+        </div>
+        <div *ngFor="let fare of flight.fares">
+            <button type="button" *ngIf="flight.remainingTickets > 0" (click)="buyTicket(fare)">
+                {{fare.price}}
+            </button>
+            <span *ngIf="flight.remainingTickets === 0">
+                No tickets remaining
+            </span>
+        </div>
     </div>
-    {{flight | json}}
-</div>
+</li>
