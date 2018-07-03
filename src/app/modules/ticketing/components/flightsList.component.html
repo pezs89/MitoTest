@@ -1,8 +1,8 @@
 <section class="flights-list" *ngIf="flights && flights.departureFlights.length > 0">
     <div class="flights-list__items">
-        <ul class="flights-list__list" *ngFor="let item of flights.departureFlights">
-            <flight-card [flightDetail]="item" [isButtonsEnabled]="true" [selectedFlight]="selectedDeparture" (buyTicketEvent)="ticketSelectionHandler($event)"
-                type="departureFlight"></flight-card>
+        <ul class="flights-list__list">
+            <flight-card *ngFor="let item of flights.departureFlights" [flightDetail]="item" [selectedFlight]="selectedDeparture" (buyTicketEvent)="ticketSelectionHandler($event)"
+                type="departureFlights"></flight-card>
         </ul>
         <div *ngIf="flights.returnFlights.length === 0">
             <form [formGroup]="returnFlightForm" (ngSubmit)="searchForReturnFlight(returnFlightForm.value)">
@@ -14,9 +14,12 @@
         </div>
     </div>
     <div class="flights-list__items">
-        <ul class="flights-list__list" *ngFor="let item of flights.returnFlights">
-            <flight-card [flightDetail]="item" [isButtonsEnabled]="true" [selectedFlight]="selectedReturn" (buyTicketEvent)="ticketSelectionHandler($event)"
-                type="returnFlight"></flight-card>
+        <ul class="flights-list__list">
+            <flight-card *ngFor="let item of flights.returnFlights" [flightDetail]="item" [selectedFlight]="selectedReturn" (buyTicketEvent)="ticketSelectionHandler($event)"
+                type="returnFlights"></flight-card>
         </ul>
+    </div>
+    <div class="flights-list__finalize">
+        <button type="button" (click)="submitSummary()">Continue</button>
     </div>
 </section>

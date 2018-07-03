@@ -1,0 +1,62 @@
+.flight-card {
+    width: 100%;
+
+    &__header {
+        padding: 10px 10px 5px 10px;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    &__title {
+        margin: 0;
+    }
+
+    &__body {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: row;
+        padding: 5px 10px 10px 10px;
+        border-bottom: 1px solid $border-main-color-with-opacity;
+        height: 40px;
+
+        .flight-dates {
+            width: 34%;
+
+            &__departure {
+                font-size: 15px;
+            }
+
+            &__return {
+                font-size: 15px;
+            }
+        }
+
+        .flight-tickets {
+            width: 22%;
+            display: flex;
+            align-content: center;
+            justify-content: center;
+
+            &__button {
+                width: 80%;
+                height: 35px;
+                outline: none;
+                border: 1px solid $border-main-color;
+                background: transparent;
+                color: $border-main-color;
+                font-size: 14px;
+                border-radius: 3px;
+                cursor: pointer;
+                opacity: 0.7;
+                transition: border .2s ease-in-out, color .2s ease-in-out, opacity .2s ease-in-out;
+
+                &--selected, &:hover {
+                    border: 1px solid $secondary-color;
+                    color: $secondary-color;
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}

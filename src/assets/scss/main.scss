@@ -1,9 +1,11 @@
 //imports
+@import 'layout/fonts';
 @import 'layout/variables';
 @import 'layout/base';
 
 @import 'components/flight-search';
 @import 'components/flights-list';
+@import 'components/flight-card';
 @import 'components/form-input';
 @import 'components/form-select';
 @import 'components/form-error';

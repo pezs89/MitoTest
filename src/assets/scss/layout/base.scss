@@ -4,9 +4,12 @@ html {
 }
 
 body {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 13px;
     margin: 0;
     height: calc(100% - 40px);
-    background:linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('~/assets/images/background.jpg');
+    background:linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../images/background.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -32,4 +35,5 @@ input, select {
     border: 1px solid $border-main-color;
     padding: 0 5px;
     border-radius: 3px;
+    font-family: 'Roboto', sans-serif;
 }

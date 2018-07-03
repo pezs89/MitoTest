@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators, Form, FormControl } from '@angular/
 import { Station } from '../../../core/models/station';
 import { FLIGHT_FORM } from '../../../core/constants/flightForm';
 import { TicketingService } from '../services/ticketing.service';
-import { Flights } from '../../../core/models/flights';
+import { Flights } from '../../../core/interfaces/flights';
 import { FlightsService } from '../services/flights.service';
 
 @Component({
@@ -16,6 +16,7 @@ export class FlightSearch implements OnInit, OnChanges {
     isSubmitted: boolean = false;
     flightSearchForm: FormGroup;
     configs = [...FLIGHT_FORM];
+    flights: Flights;
 
     constructor(private fb: FormBuilder, private ticketingService: TicketingService, private flightsService: FlightsService) { }
 
@@ -71,6 +72,10 @@ export class FlightSearch implements OnInit, OnChanges {
         }
     }
 
+    getDestinationShortName(iata: string): string {
+        return this.stations.find((station: Station) => station.iata === iata).shortName;
+    }
+
     createGroup(): FormGroup {
         const group = this.fb.group({});
         const formControls = this.configs.filter(config => config.type !== 'button');
@@ -101,25 +106,25 @@ export class FlightSearch implements OnInit, OnChanges {
 
     submitForm(form: any) {
         this.isSubmitted = true;
-        if (form.valid) {
-            const flights: Flights = {
+        if (form.valid) {   
+            this.flights = {
                 departureFlights: [],
                 returnFlights: [],
-                origin: form.value.origin,
-                destination: form.value.destination,
+                origin: this.getDestinationShortName(form.value.origin),
+                destination: this.getDestinationShortName(form.value.destination),
                 departure: form.value.departure,
-                return: form.value.return !== '' ? undefined : form.value.return
+                return: form.value.return === '' ? undefined : form.value.return
             }
-            if (form.value.return) {
-                this.ticketingService.searchForRetourFlight(flights.origin, flights.destination, flights.departure, flights.return).subscribe(response => {
-                    flights.departureFlights = response[0];
-                    flights.returnFlights = response[1];
-                    this.flightsService.sendAvailableTickets(flights);
+            if (this.flights.return) {
+                this.ticketingService.searchForRetourFlight(form.value.origin, form.value.destination, this.flights.departure, this.flights.return).subscribe(response => {
+                    this.flights.departureFlights = response[0];
+                    this.flights.returnFlights = response[1];
+                    this.flightsService.sendAvailableTickets(this.flights);
                 })
             } else {
-                this.ticketingService.searchForOneWayFlight(flights.origin, flights.destination, flights.departure).subscribe(response => {
-                    flights.departureFlights = response;
-                    this.flightsService.sendAvailableTickets(flights);
+                this.ticketingService.searchForOneWayFlight(form.value.origin, form.value.destination, this.flights.departure).subscribe(response => {
+                    this.flights.departureFlights = response;
+                    this.flightsService.sendAvailableTickets(this.flights);
                 })
             }
         }

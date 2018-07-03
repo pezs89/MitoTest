@@ -1,19 +1,19 @@
 <li class="flight-card">
+    <div class="flight-card__header">
+        <h4 class="flight-card__title">
+            {{flight.remainingTickets}} tickets remaining
+        </h4>
+    </div>
     <div class="flight-card__body">
-        {{flight.remainingTickets}}
-        {{flight.flightNumber}}
-        {{selectedDeparture ? selectedDeparture.flightNumber : ''}}
-        <div>
-            <div class="">{{flight.departure}}</div>
-            <div class="">{{flight.arrival}}</div>
+        <div class="flight-dates">
+            <div class="flight-dates__departure">{{flight.departure | date: 'yyyy-MM-dd'}}</div>
+            <div class="flight-dates__departure">{{flight.arrival | date: 'yyyy-MM-dd'}}</div>
         </div>
-        <div *ngFor="let fare of flight.fares">
-            <button type="button" *ngIf="flight.remainingTickets > 0" [disabled]="(selectedDeparture && selectedDeparture.flightNumber !== flight.flightNumber) || (selectedTicket && fare.fareSellKey !== selectedTicket.fareSellKey)" (click)="addTicket(fare)">
-                {{fare.price}}
+        <div class="flight-tickets" *ngFor="let fare of flight.fares">
+            <button class="flight-tickets__button" [ngClass]="{'flight-tickets__button--selected': isTicketSelected(fare)}" type="button" [disabled]="hasSelectedDeparture() || hasSelectedTicket(fare) || !hasAvailableTickets()"
+                (click)="addTicket(fare)">
+                {{fare.price | currency}}
             </button>
-            <span *ngIf="flight.remainingTickets === 0">
-                No tickets remaining
-            </span>
         </div>
     </div>
 </li>

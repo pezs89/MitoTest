@@ -1,4 +1,4 @@
-import { Flight } from "./Flight";
+import { Flight } from "../models/Flight";
 
 export interface Flights {
     departureFlights: Flight[];
@@ -7,5 +7,4 @@ export interface Flights {
     destination: string;
     departure: Date;
     return?: Date;
-
 }

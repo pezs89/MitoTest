@@ -74,8 +74,7 @@ const config = {
                     use: [
                         'css-loader',
                         'sass-loader'
-                    ],
-                    publicPath: '../..'
+                    ]
                 })
             }
         ]

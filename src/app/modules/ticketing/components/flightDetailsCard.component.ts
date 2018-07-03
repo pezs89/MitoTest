@@ -10,11 +10,26 @@ import { Fare } from '../../../core/models/fare';
 export class FlightDetailsCard {
     @Input('flightDetail') flight: Flight;
     @Input('selectedFlight') selectedDeparture: Flight;
-    @Input('isButtonsEnabled') isEnabled: boolean;
     @Input('type') flightType: boolean;
     @Output() buyTicketEvent = new EventEmitter();
 
     selectedTicket: Fare;
+
+    hasSelectedDeparture(): boolean {
+        return this.selectedDeparture && this.selectedDeparture.flightNumber !== this.flight.flightNumber;
+    }
+
+    hasSelectedTicket(fare: Fare): boolean {
+        return this.selectedTicket && fare.fareSellKey !== this.selectedTicket.fareSellKey;
+    }
+
+    hasAvailableTickets(): boolean {
+        return this.flight.remainingTickets > 0;
+    }
+
+    isTicketSelected(fare: Fare): boolean {
+        return this.selectedTicket && fare.fareSellKey === this.selectedTicket.fareSellKey;
+    }
 
     addTicket(fare: Fare) {
         if (!this.selectedTicket) {

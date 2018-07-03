@@ -16,6 +16,7 @@ import { TicketingService } from './services/ticketing.service';
 import { FlightsService } from './services/flights.service';
 
 import { TicketingRoutingModule } from './ticketing-routing.module';
+import { OrderSummary } from './components/orderSummary.component';
 
 @NgModule({
     imports: [
@@ -29,6 +30,7 @@ import { TicketingRoutingModule } from './ticketing-routing.module';
         Ticketing,
         FlightSearch,
         FlightsList,
+        OrderSummary,
         FlightDetailsCard,
         FormSelect,
         FormInput,
@@ -37,7 +39,7 @@ import { TicketingRoutingModule } from './ticketing-routing.module';
     ],
     providers: [
         TicketingService,
-        FlightsService
+        FlightsService,
     ]
 })
 
