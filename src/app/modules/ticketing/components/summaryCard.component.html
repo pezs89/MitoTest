@@ -1,0 +1,24 @@
+<div class="summary-card">
+    <div class="summary-card-dates">
+        <div>
+            {{summaryItem.origin}}
+        </div>
+        <div>
+            {{summaryItem.destination}}
+        </div>
+    </div>
+    <div class="summary-card-dates">
+        <div>
+            {{summaryItem.departureDate | date: 'yyyy-MM-dd hh:mm'}}
+        </div>
+        <div>
+            {{summaryItem.arrivalDate | date: 'yyyy-MM-dd hh:mm'}}
+        </div>
+    </div>
+    <div class="summary-card-bundle">
+        {{summaryItem.bundle}}
+    </div>
+    <div class="summary-card-price">
+        {{summaryItem.price | currency}}
+    </div>
+</div>

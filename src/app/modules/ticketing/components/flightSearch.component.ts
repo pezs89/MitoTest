@@ -111,7 +111,9 @@ export class FlightSearch implements OnInit, OnChanges {
                 departureFlights: [],
                 returnFlights: [],
                 origin: this.getDestinationShortName(form.value.origin),
+                originIata: form.value.origin,
                 destination: this.getDestinationShortName(form.value.destination),
+                destinationIata: form.value.destination,
                 departure: form.value.departure,
                 return: form.value.return === '' ? undefined : form.value.return
             }

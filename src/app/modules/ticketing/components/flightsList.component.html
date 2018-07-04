@@ -1,4 +1,4 @@
-<section class="flights-list" *ngIf="flights && flights.departureFlights.length > 0">
+<section class="flights-list" [ngClass]="{'flights-list--column-direction': flights.returnFlights.length === 0}" *ngIf="flights && flights.departureFlights.length > 0">
     <div class="flights-list__items">
         <ul class="flights-list__list">
             <flight-card *ngFor="let item of flights.departureFlights" [flightDetail]="item" [selectedFlight]="selectedDeparture" (buyTicketEvent)="ticketSelectionHandler($event)"
@@ -13,13 +13,13 @@
             </form>
         </div>
     </div>
-    <div class="flights-list__items">
+    <div class="flights-list__items" *ngIf="flights.returnFlights.length > 0">
         <ul class="flights-list__list">
             <flight-card *ngFor="let item of flights.returnFlights" [flightDetail]="item" [selectedFlight]="selectedReturn" (buyTicketEvent)="ticketSelectionHandler($event)"
                 type="returnFlights"></flight-card>
         </ul>
     </div>
-    <div class="flights-list__finalize">
-        <button type="button" (click)="submitSummary()">Continue</button>
+    <div class="flights-list__continue">
+        <button class="flights-list__button" type="button" (click)="submitSummary()">Continue</button>
     </div>
 </section>

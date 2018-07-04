@@ -1,3 +1,7 @@
-<section *ngIf="summary">
+<section class="order-summary" *ngIf="summary">
+    <div class="order-summary__list">
+        <summary-card [orderSummary]="summary.departureFlight"></summary-card>
+        <summary-card [orderSummary]="summary.returnFlight"></summary-card>
+    </div>
     {{summary | json}}
 </section>

@@ -4,6 +4,13 @@
     display: flex;
     align-items: flex-start;
     justify-content: center;
+    flex-flow: wrap;
+    background: linear-gradient(17deg, #FFFFFF 0%, #FFFFFF 50%, #05038D 50%, #05038D 100%);
+
+    &--column-direction {
+        flex-direction: column;
+        align-items: center;
+    }
 
     &__items {
         width: calc(50% - 50px);
@@ -15,11 +22,46 @@
         flex-direction: column;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
         border-radius: 3px;
+        background: #fff;
     }
     
     &__list {
         list-style: none;
         padding: 0;
         width: 100%;
+    }
+
+    &__continue {
+        margin: 15px 0;
+    }
+    
+    &__button {
+        height: 30px;
+        width: 140px;
+        outline: none;
+        border: 1px solid $secondary-color;
+        color: #fff;
+        cursor: pointer;
+        background-color: $secondary-color;
+        border-radius: 3px;
+    }
+}
+
+@media screen and (max-width: 992px) { 
+    .flights-list {
+        flex-direction: column;
+        align-items: center;
+        &__items {
+            width: calc(80% - 50px);
+        }
+    }
+}
+
+@media screen and (max-width: 620px) { 
+    .flights-list {
+        padding: 5px 10px;
+        &__items {
+            width: calc(100% - 20px);
+        }
     }
 }

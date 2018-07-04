@@ -53,7 +53,7 @@ export class FlightsList implements OnInit, OnDestroy {
 
     searchForReturnFlight(formValues: any) {
         this.isSubmitted = true;
-        this.ticketingService.searchForOneWayFlight(this.flights.destination, this.flights.origin, formValues.return).subscribe(response => {
+        this.ticketingService.searchForOneWayFlight(this.flights.destinationIata, this.flights.originIata, formValues.return).subscribe(response => {
             this.flights.returnFlights = response;
         });
     }
@@ -66,8 +66,8 @@ export class FlightsList implements OnInit, OnDestroy {
         return flightType === 'departureFlights' ? this.flights.destination : this.flights.origin;
     }
 
-    getDepartureDate(type: string, flightNumber: string): Date {
-        return this.flights[type].find((flight: Flight) => flight.flightNumber === flightNumber).date;
+    getDepartureDate(type: string, flightNumber: string, key: string): string {
+        return this.flights[type].find((flight: Flight) => flight.flightNumber === flightNumber)[key];
     }
 
     getPrice(type: string, farePrice: number): number {
@@ -80,7 +80,8 @@ export class FlightsList implements OnInit, OnDestroy {
         this.ticketOrderSummary[type] = {
             origin: this.getOrigin(flight.type),
             destination: this.getDestination(flight.type),
-            date: this.getDepartureDate(flight.type, flight.flightNumber),
+            departureDate: this.getDepartureDate(flight.type, flight.flightNumber, 'departure'),
+            arrivalDate: this.getDepartureDate(flight.type, flight.flightNumber, 'arrival'),
             orderedTickets: this.ticketOrderSummary[type].orderedTickets + 1,
             bundle: flight.fare.bundle,
             price: this.getPrice(type, flight.fare.price)

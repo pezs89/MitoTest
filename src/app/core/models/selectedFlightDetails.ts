@@ -1,7 +1,8 @@
 export class SelectedFlightDetails {
     origin: string = '';
     destination: string = '';
-    date: Date = new Date();
+    departureDate: string = '';
+    arrivalDate: string = '';
     orderedTickets: number = 0;
     bundle: string = '';
     price: number = 0;
