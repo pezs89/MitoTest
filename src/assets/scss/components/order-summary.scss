@@ -1,5 +1,5 @@
 .order-summary {
-    height: 50vh;
+    height: 80vh;
     background: linear-gradient(199deg, #FFFFFF 0%, #FFFFFF 51%, #C7007E 51%, #C7007E 100%); 
     padding: 20px 40px;
     display: flex;
@@ -7,11 +7,21 @@
     align-items: center;
     
     &__list {
-        width: calc(80% - 50px);
+        width: calc(50% - 50px);
         padding: 10px 5px;
         box-shadow: 0 1px 3px rgba(0,0,0, 0.2);
         background-color: #fff;
-        margin: 10px;
+        margin: 40px 10px 10px 10px;
+    }
+
+    &__total {
+        padding: 0 5px;
+        margin: 15px 0 5px 0;
+        text-align: center;
+    }
+
+    &__button {
+        margin: 15px 0 0 0;
     }
 }
 

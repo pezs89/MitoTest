@@ -1,6 +1,6 @@
 <div class="form-select" [formGroup]="groupName">
     <label class="form-select__label">{{ config.label }}</label>
-    <select class="form-select__select" [formControlName]="config.controlName">
+    <select class="form-select__select" [formControlName]="config.controlName" [ngClass]="{'form-input-container__input--error': isVisible && groupName.get(config.controlName).errors}">
         <option class="form-select__option" value="">{{ config.placeholder }}</option>
         <option *ngFor="let option of config.options" [value]="option.iata">
             {{ option[config.propertyName] }}

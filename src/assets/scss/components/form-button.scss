@@ -3,14 +3,4 @@
     align-items: center;
     justify-content: center;
     margin: 10px 0;
-    &__button {
-        height: 30px;
-        width: 140px;
-        outline: none;
-        border: 1px solid $secondary-color;
-        color: #fff;
-        cursor: pointer;
-        background-color: $secondary-color;
-        border-radius: 3px;
-    }
 }

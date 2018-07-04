@@ -1,28 +1,42 @@
-import { Component, Input, OnChanges, SimpleChange, SimpleChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChange, SimpleChanges, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, Form, FormControl } from '@angular/forms';
 import { Station } from '../../../core/models/station';
 import { FLIGHT_FORM } from '../../../core/constants/flightForm';
 import { TicketingService } from '../services/ticketing.service';
 import { Flights } from '../../../core/interfaces/flights';
 import { FlightsService } from '../services/flights.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'flight-search',
     templateUrl: 'flightSearch.component.html'
 })
 
-export class FlightSearch implements OnInit, OnChanges {
+export class FlightSearch implements OnInit, OnChanges, OnDestroy {
     @Input('allStations') stations: Station[];
     isSubmitted: boolean = false;
     flightSearchForm: FormGroup;
     configs = [...FLIGHT_FORM];
     flights: Flights;
+    private returnDateSubscribtion: Subscription;
+    private orderConfirmSubscription: Subscription;
 
     constructor(private fb: FormBuilder, private ticketingService: TicketingService, private flightsService: FlightsService) { }
 
     ngOnInit() {
         this.flightSearchForm = this.createGroup();
         this.onFormValueChange();
+
+        this.returnDateSubscribtion = this.flightsService.returnDateObservable.subscribe(newReturnDate => {
+            this.flightSearchForm.get('return').setValue(newReturnDate);
+        })
+
+        this.orderConfirmSubscription = this.flightsService.orderSubmitObservable.subscribe(isOrdered => {
+            if (isOrdered) {
+                this.flightSearchForm = this.createGroup();
+                this.isSubmitted = false;
+            }
+        })
     }
 
     ngOnChanges(change: SimpleChanges) {
@@ -104,9 +118,24 @@ export class FlightSearch implements OnInit, OnChanges {
         }
     }
 
+    searchForRetourFlight(origin: string, destination: string, departure: Date, returnDate: Date) {
+        this.ticketingService.searchForRetourFlight(origin, destination, departure, returnDate).subscribe(response => {
+            this.flights.departureFlights = response[0];
+            this.flights.returnFlights = response[1];
+            this.flightsService.sendAvailableTickets(this.flights);
+        })
+    }
+
+    searchForOneWayFlight(origin: string, destination: string, departure: Date) {
+        this.ticketingService.searchForOneWayFlight(origin, destination, departure).subscribe(response => {
+            this.flights.departureFlights = response;
+            this.flightsService.sendAvailableTickets(this.flights);
+        })
+    }
+
     submitForm(form: any) {
         this.isSubmitted = true;
-        if (form.valid) {   
+        if (form.valid) {
             this.flights = {
                 departureFlights: [],
                 returnFlights: [],
@@ -118,17 +147,15 @@ export class FlightSearch implements OnInit, OnChanges {
                 return: form.value.return === '' ? undefined : form.value.return
             }
             if (this.flights.return) {
-                this.ticketingService.searchForRetourFlight(form.value.origin, form.value.destination, this.flights.departure, this.flights.return).subscribe(response => {
-                    this.flights.departureFlights = response[0];
-                    this.flights.returnFlights = response[1];
-                    this.flightsService.sendAvailableTickets(this.flights);
-                })
+                this.searchForRetourFlight(form.value.origin, form.value.destination, this.flights.departure, this.flights.return);
             } else {
-                this.ticketingService.searchForOneWayFlight(form.value.origin, form.value.destination, this.flights.departure).subscribe(response => {
-                    this.flights.departureFlights = response;
-                    this.flightsService.sendAvailableTickets(this.flights);
-                })
+                this.searchForOneWayFlight(form.value.origin, form.value.destination, this.flights.departure);
             }
         }
+    }
+
+    ngOnDestroy() {
+        this.returnDateSubscribtion.unsubscribe();
+        this.orderConfirmSubscription.unsubscribe();
     }
 }

@@ -7,5 +7,6 @@ import { SelectedFlightDetails } from '../../../core/models/selectedFlightDetail
 })
 
 export class SummaryCard {
+    @Input('title') title: string;
     @Input('orderSummary') summaryItem: SelectedFlightDetails;
 }

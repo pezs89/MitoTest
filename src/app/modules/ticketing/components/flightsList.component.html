@@ -20,6 +20,6 @@
         </ul>
     </div>
     <div class="flights-list__continue">
-        <button class="flights-list__button" type="button" (click)="submitSummary()">Continue</button>
+        <button class="flights-list__button" type="button" [disabled]="!isContinueEnabled()" (click)="submitSummary()">Calculate</button>
     </div>
 </section>

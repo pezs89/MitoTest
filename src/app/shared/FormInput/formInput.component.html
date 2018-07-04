@@ -1,5 +1,6 @@
 <div class="form-input-container" [formGroup]="groupName">
     <label class="form-input__label">{{ config.label }}</label>
-    <input class="form-input-container__input" [min]="minValue" [type]="config.inputType" [formControlName]="config.controlName"/>
+    <input class="form-input-container__input" [min]="minValue" [type]="config.inputType" [formControlName]="config.controlName"
+        [ngClass]="{'form-input-container__input--error': isVisible && groupName.get(config.controlName).errors}" />
     <form-error [showErrorOnSubmit]="isVisible" [errors]="groupName.get(config.controlName).errors" [label]="config.label"></form-error>
 </div>

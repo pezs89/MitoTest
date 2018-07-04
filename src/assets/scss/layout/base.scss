@@ -9,7 +9,7 @@ body {
     font-size: 13px;
     margin: 0;
     height: calc(100% - 40px);
-    background:linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../images/background.jpg');
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../images/background.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -21,7 +21,7 @@ header {
     height: 60px;
     width: 100%;
     top: 0;
-    background-color: $main-color;
+    background-color: $main-color-opacity;
     z-index: 1;
 }
 
@@ -31,9 +31,35 @@ main {
     margin: 40px 0 0 0;
 }
 
-input, select {
+input,
+select {
     border: 1px solid $border-main-color;
     padding: 0 5px;
     border-radius: 3px;
     font-family: 'Roboto', sans-serif;
+    outline: none;
+}
+
+h3 {
+    margin: 0;
+}
+
+button {
+    height: 30px;
+    width: 140px;
+    outline: none;
+    border: 1px solid $secondary-color;
+    color: #fff;
+    cursor: pointer;
+    background-color: $secondary-color;
+    border-radius: 3px;
+    transform: scale(1);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    &:disabled {
+        opacity: 0.5;
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
 }

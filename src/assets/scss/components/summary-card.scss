@@ -3,12 +3,28 @@
     align-items: center;
     justify-content: flex-start;
     padding: 5px 10px 10px 10px;
-
-    &__destinations, &__dates {
-        width: 30%;
+    font-size: 15px;
+    border-bottom: 1px solid $border-main-color-with-opacity;
+    flex-wrap: wrap;
+    
+    &__title {
+        width: 100%;
+        margin: 10px 0;
     }
 
-    &__bundle, &__price {
+    &__destinations,
+    &__dates {
+        width: 30%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    &__bundle,
+    &__price {
         width: 20%;
+        text-align: center;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
     }
 }

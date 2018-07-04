@@ -1,7 +1,14 @@
 <section class="order-summary" *ngIf="summary">
     <div class="order-summary__list">
-        <summary-card [orderSummary]="summary.departureFlight"></summary-card>
-        <summary-card [orderSummary]="summary.returnFlight"></summary-card>
+        <summary-card [orderSummary]="summary.departureFlight" [title]="'Departure Flight Summary'"></summary-card>
+        <summary-card *ngIf="summary.returnFlight.price > 0" [orderSummary]="summary.returnFlight" [title]="'Return Flight Summary'"></summary-card>
+        <div class="order-summary__total">
+            <h3>
+                Total price: {{summary.departureFlight.price + summary.returnFlight.price | currency}}
+            </h3>
+            <button type="button" class="order-summary__button" (click)="submitOrder()">
+                Confirm
+            </button>
+        </div>
     </div>
-    {{summary | json}}
 </section>

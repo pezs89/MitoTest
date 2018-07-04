@@ -17,8 +17,12 @@ export class OrderSummary implements OnInit, OnDestroy {
     ngOnInit() {
         this.summarySubscription = this.flightService.ticketsOrderObservable.subscribe(order => {
             this.summary = order;
-            console.log(this.summary);
         })
+    }
+
+    submitOrder() {
+        this.summary = undefined;
+        this.flightService.submitOrder(true);
     }
 
     ngOnDestroy() {
