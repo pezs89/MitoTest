@@ -54,18 +54,8 @@ const config = {
                 loader: 'html-loader'
             },
             {
-                test: /\.(gif|svg|woff|woff2|ttf|eot|ico)$/,
+                test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
                 loader: 'file-loader?name=assets/[name].[ext]'
-            },
-            {
-                test: /\.(png|jpe?g|gif)$/,
-                use: {
-                    loader: 'url-loader',
-                    options: {
-                        limit: 8192,
-                        name: "./assets/images/[name].[ext]"
-                    }
-                }
             },
             {
                 test: /\.(css|scss|sass)$/,

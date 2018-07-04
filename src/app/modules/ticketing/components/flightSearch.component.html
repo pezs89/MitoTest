@@ -1,10 +1,12 @@
 <section class="flight-search-container">
-    <!-- <div *ngIf="isSubmitted && flights && flights.departureFlights.length === 0">No flight found on the selected departure date, please select choose another date!</div> -->
-    <form class="flight-search-container__form" [formGroup]="flightSearchForm" (ngSubmit)="submitForm(flightSearchForm)" *ngIf="stations">
+    <div class="flight-search-container__form-container">
+        <div class="flight-search-container__no-departure" *ngIf="isSubmitted && flights && !hasDepartureFlight">No flight found on the selected departure date, please select choose another date!</div>
+        <form class="flight-search-container__form" [formGroup]="flightSearchForm" (ngSubmit)="submitForm(flightSearchForm)" *ngIf="stations">
             <div class="flight-search-container__input-container" *ngFor="let config of configs" [ngSwitch]="config.type">
                 <form-select *ngSwitchCase="'select'" [showErrorOnSubmit]="isSubmitted" [config]="config" [groupName]="flightSearchForm"></form-select>
                 <form-input *ngSwitchCase="'input'" [showErrorOnSubmit]="isSubmitted" [config]="config" [groupName]="flightSearchForm"></form-input>
                 <form-button *ngSwitchCase="'button'" [config]="config" [groupName]="flightSearchForm"></form-button>
             </div>
         </form>
+    </div>
 </section>

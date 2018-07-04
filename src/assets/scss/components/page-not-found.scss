@@ -1,0 +1,41 @@
+.page-not-found {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10%;
+
+    &__icon {
+        font-size: 70px;
+        color: #fff;
+    }
+
+    &__title {
+        color: #fff;
+        font-size: 30px;
+        font-weight: 400;
+        text-align: center;
+        margin: 10px 0 25px 0;
+    }
+
+    .link-container {
+        &__link {
+            text-align: center;
+            font-size: 20px;
+
+            &:hover + .link-container__underline {
+                border-top: 1px solid $secondary-color;
+                transform: scale(1);
+            }
+        }
+
+        &__underline {
+            display: block;
+            border-top: 1px solid #fff;
+            transform: scale(0, 1);
+            -webkit-transform: scale(0, 1);
+            transition: all 0.2s linear;
+            -webkit-transition: all 0.2s linear;
+        }
+    }
+}

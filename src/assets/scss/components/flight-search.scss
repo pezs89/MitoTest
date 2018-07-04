@@ -1,24 +1,51 @@
 .flight-search-container {
-    height: calc(100vh - 40px);
+    height: calc(100vh - 60px);
     display: flex;
     align-items: center;
     justify-content: center;
 
-    &__form {
-        height: 325px;
-        width: 400px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 10px;
+    &__no-departure {
+        text-align: center;
+        color: $error-color;
+        padding: 10px 0;
+        font-size: 15px;
+    }
+
+    &__form-container {
         border: 1px solid #fff;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
         border-radius: 3px;
         background-color: #fff;
+        padding: 10px;
+        width: 30%;
+    }
+
+    &__form {
+        height: 325px;
+        width: calc(100% - 5px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     &__input-container {
         width: 100%;
         height: 70px;
+    }
+}
+
+@media screen and (max-width: 992px) { 
+    .flight-search-container {
+        &__form-container {
+            width: calc(60% - 50px);
+        }
+    }
+}
+
+@media screen and (max-width: 620px) { 
+    .flight-search-container {
+        &__form-container {
+            width: calc(100% - 50px);
+        }
     }
 }

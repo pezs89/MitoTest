@@ -6,6 +6,7 @@ import { TicketingService } from '../services/ticketing.service';
 import { Flights } from '../../../core/interfaces/flights';
 import { FlightsService } from '../services/flights.service';
 import { Subscription } from 'rxjs';
+import { Flight } from '../../../core/models/Flight';
 
 @Component({
     selector: 'flight-search',
@@ -18,6 +19,8 @@ export class FlightSearch implements OnInit, OnChanges, OnDestroy {
     flightSearchForm: FormGroup;
     configs = [...FLIGHT_FORM];
     flights: Flights;
+    hasDepartureFlight: boolean = true;
+
     private returnDateSubscribtion: Subscription;
     private orderConfirmSubscription: Subscription;
 
@@ -123,14 +126,20 @@ export class FlightSearch implements OnInit, OnChanges, OnDestroy {
             this.flights.departureFlights = response[0];
             this.flights.returnFlights = response[1];
             this.flightsService.sendAvailableTickets(this.flights);
+            this.hasDepartureFlight = this.hasDeparture(this.flights.departureFlights);
         })
     }
 
     searchForOneWayFlight(origin: string, destination: string, departure: Date) {
         this.ticketingService.searchForOneWayFlight(origin, destination, departure).subscribe(response => {
             this.flights.departureFlights = response;
+            this.hasDepartureFlight = this.hasDeparture(this.flights.departureFlights);
             this.flightsService.sendAvailableTickets(this.flights);
         })
+    }
+
+    hasDeparture(departureFlight: Array<Flight>): boolean {
+        return departureFlight.length === 0 ? false : true
     }
 
     submitForm(form: any) {

@@ -103,11 +103,16 @@ export class FlightsList implements OnInit, OnDestroy {
         this.flights = undefined;
         this.ticketOrderSummary = { departureFlight: new SelectedFlightDetails(), returnFlight: new SelectedFlightDetails() };
         this.isSubmitted = false;
+        this.resetSummaryComponent();
     }
 
     submitSummary() {
         const ticketSummary = { ...this.ticketOrderSummary };
         this.flightsService.sendSummary(ticketSummary);
+    }
+
+    resetSummaryComponent() {
+        this.flightsService.sendSummary(null);
     }
 
     isContinueEnabled() {
