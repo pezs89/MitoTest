@@ -14,3 +14,20 @@
         margin: 10px;
     }
 }
+
+@media screen and (max-width: 992px) { 
+    .order-summary {
+        &__list {
+            width: calc(80% - 50px);
+        }
+    }
+}
+
+@media screen and (max-width: 620px) { 
+    .order-summary {
+        padding: 5px 10px;
+        &__list {
+            width: calc(100% - 20px);
+        }
+    }
+}

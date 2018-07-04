@@ -2,4 +2,13 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    padding: 5px 10px 10px 10px;
+
+    &__destinations, &__dates {
+        width: 30%;
+    }
+
+    &__bundle, &__price {
+        width: 20%;
+    }
 }

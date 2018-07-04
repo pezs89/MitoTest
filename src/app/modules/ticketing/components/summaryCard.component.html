@@ -1,5 +1,5 @@
 <div class="summary-card">
-    <div class="summary-card-dates">
+    <div class="summary-card__destinations">
         <div>
             {{summaryItem.origin}}
         </div>
@@ -7,7 +7,7 @@
             {{summaryItem.destination}}
         </div>
     </div>
-    <div class="summary-card-dates">
+    <div class="summary-card__dates">
         <div>
             {{summaryItem.departureDate | date: 'yyyy-MM-dd hh:mm'}}
         </div>
@@ -15,10 +15,10 @@
             {{summaryItem.arrivalDate | date: 'yyyy-MM-dd hh:mm'}}
         </div>
     </div>
-    <div class="summary-card-bundle">
+    <div class="summary-card__bundle">
         {{summaryItem.bundle}}
     </div>
-    <div class="summary-card-price">
+    <div class="summary-card__price">
         {{summaryItem.price | currency}}
     </div>
 </div>
